@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hearc.ig.odi.peoplelist.business.Person;
+package ch.hearc.ig.odi.peoplelist.business;
 
 import java.util.Date;
 
