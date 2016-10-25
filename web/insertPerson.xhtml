@@ -8,11 +8,11 @@
     </h:head>
     <h:body>
         <h:form>
-            gender <h:inputText id="gender" value="#{peopleListBean.gender}"/>
-            Prénom<h:inputText id="firstName" value="#{peopleListBean.firstName}"/>
-            Nom <h:inputText id="lastName" value="#{peopleListBean.lastName}"/>
-            marrie <h:inputText id="married" value="#{peopleListBean.married}"/>
-            birth <h:inputText id="birthDate" value="#{peopleListBean.birthDate}">
+            #{msg['gender']} <h:inputText id="gender" value="#{peopleListBean.gender}"/>
+            #{msg['firstName']}<h:inputText id="firstName" value="#{peopleListBean.firstName}"/>
+            #{msg['lastName']} <h:inputText id="lastName" value="#{peopleListBean.lastName}"/>
+            #{msg['married']} <h:inputText id="married" value="#{peopleListBean.married}"/>
+            #{msg['birth']} <h:inputText id="birthDate" value="#{peopleListBean.birthDate}">
                 <f:convertDateTime pattern="dd.MM.yyyy"/>
             </h:inputText>
             <h:commandButton value="Valider" action="#{peopleListBean.createPerson()}"/>
