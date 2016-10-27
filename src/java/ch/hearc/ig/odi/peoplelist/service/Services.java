@@ -132,8 +132,7 @@ public class Services implements Serializable{
         return new ArrayList(people.values());
     }
     
-    public String remove(Person person){
+    public void remove(Person person){
         people.remove(person.getId(), person);
-        return "listPeople.xhtml";
     }
 }
