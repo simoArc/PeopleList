@@ -29,8 +29,9 @@ public class RemovePersonBean {
     public RemovePersonBean() {
     }
 
-    public void remove() {
+    public String remove() {
         services.remove(personToDelete);
+        return "listPeople.xhtml";
     }
 
     public Person getPersonToDelete() {
