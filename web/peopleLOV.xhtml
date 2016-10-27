@@ -8,10 +8,11 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:selectOneMenu id="lovPeople" value="#{peopleListBean.peopleList}" >
-                <f:converter binding="#{peopleLOVConverter}"/>
+            <h:selectOneMenu id="lovPeople" value="#{removePersonBean.personToDelete}" >
+                <f:converter binding="#{personLOVConverter}"/>
                 <f:selectItems value="#{peopleListBean.peopleList}" var="people" itemLabel="#{people.lastName}" />
             </h:selectOneMenu>
+            <h:commandButton value="Supprimer" action="#{removePersonBean.remove()}"/>
         </h:form>
     </h:body>
 </html>

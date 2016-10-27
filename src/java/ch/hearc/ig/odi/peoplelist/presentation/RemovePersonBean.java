@@ -7,12 +7,6 @@ package ch.hearc.ig.odi.peoplelist.presentation;
 
 import ch.hearc.ig.odi.peoplelist.business.Person;
 import ch.hearc.ig.odi.peoplelist.service.Services;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -21,22 +15,32 @@ import javax.inject.Inject;
  *
  * @author Simone Bissolotti
  */
-@Named(value = "peopleListBean")
+@Named(value = "removePersonBean")
 @RequestScoped
-public class PeopleListBean {
+public class RemovePersonBean {
 
-    @Inject Services services;
-    
-    
+    @Inject
+    Services services;
+    private Person personToDelete;
+
     /**
-     * Creates a new instance of PeopleListBean
+     * Creates a new instance of RemovePersonBean
      */
-    public PeopleListBean() {
+    public RemovePersonBean() {
+    }
+
+    public void remove() {
+        services.remove(personToDelete);
+    }
+
+    public Person getPersonToDelete() {
+        return personToDelete;
+    }
+
+    public void setPersonToDelete(Person personToDelete) {
+        this.personToDelete = personToDelete;
     }
     
-    public List getPeopleList(){
-        return services.getPeopleList();
-    }
     
-    
+
 }

@@ -18,9 +18,9 @@ import javax.inject.Inject;
  *
  * @author Simone Bissolotti
  */
-@Named(value = "peopleLOVConverter")
+@Named(value = "personLOVConverter")
 @RequestScoped
-public class PeopleLOVConverter implements Converter{
+public class PersonLOVConverter implements Converter{
 
     @Inject
     Services services;
