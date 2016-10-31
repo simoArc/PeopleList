@@ -19,13 +19,15 @@ import javax.inject.Inject;
 @RequestScoped
 public class CreatePersonBean {
 
-     @Inject Services services;
+    @Inject
+    Services services;
+
     /**
      * Creates a new instance of CreatePersonBean
      */
     public CreatePersonBean() {
     }
-    
+
     private Long id;
     private String gender;
     private String firstName;
@@ -78,11 +80,15 @@ public class CreatePersonBean {
     }
 
     public void setBirthDate(Date birthDate) {
-            this.birthDate = birthDate;
+        this.birthDate = birthDate;
     }
-    
-     public Long createPerson(){
-       return services.savePerson(gender, firstName, lastName, married, birthDate);
+
+    public String createPerson() throws Exception {
+
+        if (services.savePerson(gender, firstName, lastName, married, birthDate) == 0L) {
+            return "error.xhtml";
+        }
+        return null;
     }
-    
+
 }

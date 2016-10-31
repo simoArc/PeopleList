@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 
 /**
  *
@@ -20,20 +21,20 @@ import javax.enterprise.context.SessionScoped;
  */
 @SessionScoped
 @Stateful
-public class Services implements Serializable{
-    
+public class Services implements Serializable {
+
     // Permet de stocker la liste de personnes de telle manière à simuler une base de données
     private Map<Long, Person> people;
-    
+
     // Compteur permettant d'avoir des IDs uniques lors de l'ajout de nouvelles personnes
     private Long currentMaxId = 1l;
-    
-    public Services(){
+
+    public Services() {
         // Crée 6 personnes à chaque création de session pour avoir une base sur laquelle travailler
         try {
             people = new HashMap<>();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-            
+
             Person currentPerson = new Person();
             currentPerson.setId(1l);
             currentPerson.setGender("male");
@@ -42,7 +43,7 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("22.01.1972"));
             currentPerson.setMarried(false);
             people.put(1l, currentPerson);
-            
+
             currentPerson = new Person();
             currentPerson.setId(2l);
             currentPerson.setGender("male");
@@ -51,7 +52,7 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("27.08.1981"));
             currentPerson.setMarried(true);
             people.put(2l, currentPerson);
-            
+
             currentPerson = new Person();
             currentPerson.setId(3l);
             currentPerson.setGender("male");
@@ -60,7 +61,7 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("12.06.1970"));
             currentPerson.setMarried(false);
             people.put(3l, currentPerson);
-            
+
             currentPerson = new Person();
             currentPerson.setId(4l);
             currentPerson.setGender("female");
@@ -69,7 +70,7 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("04.08.1981"));
             currentPerson.setMarried(true);
             people.put(4l, currentPerson);
-            
+
             currentPerson = new Person();
             currentPerson.setId(5l);
             currentPerson.setGender("female");
@@ -78,7 +79,7 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("06.12.1972"));
             currentPerson.setMarried(false);
             people.put(5l, currentPerson);
-            
+
             currentPerson = new Person();
             currentPerson.setId(6l);
             currentPerson.setGender("female");
@@ -87,15 +88,17 @@ public class Services implements Serializable{
             currentPerson.setBirthDate(sdf.parse("25.04.1969"));
             currentPerson.setMarried(false);
             people.put(6l, currentPerson);
-            
+
             currentMaxId = 6l;
         } catch (ParseException ex) {
             Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
-     * Sauvegarde une nouvelle personne dans la liste, et retourne l'id de ladite nouvelle personne
+     * Sauvegarde une nouvelle personne dans la liste, et retourne l'id de
+     * ladite nouvelle personne
+     *
      * @param gender Genre de la personne
      * @param firstName Prénom de la personne
      * @param lastName Nom de la personne
@@ -103,36 +106,55 @@ public class Services implements Serializable{
      * @param birthDate Date de naissance de la personne
      * @return L'ID de la nouvelle personne
      */
-    public Long savePerson(String gender, String firstName, String lastName, Boolean married, Date birthDate){
+    public Long savePerson(String gender, String firstName, String lastName, Boolean married, Date birthDate) throws Exception {
         Person person = new Person();
-        
+        Person personToCompare = new Person();
+
         currentMaxId++;
-        
+
         person.setId(currentMaxId);
         person.setGender(gender);
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setBirthDate(birthDate);
         person.setMarried(married);
-        
-        people.put(currentMaxId, person);
-        
+
+        if (checkPerson(person) == "ok") {
+            people.put(currentMaxId, person);
         return currentMaxId;
+        }else{
+            return 0L;
+        }
+
+        
     }
-    
-    public Person getPerson(Long id){
+
+    public Person getPerson(Long id) {
         return people.get(id);
     }
-    
-    public Map<Long, Person> getPeople(){
+
+    public Map<Long, Person> getPeople() {
         return people;
     }
-    
-    public List<Person> getPeopleList(){
+
+    public List<Person> getPeopleList() {
         return new ArrayList(people.values());
     }
-    
-    public void remove(Person person){
+
+    public void remove(Person person) {
         people.remove(person.getId(), person);
+    }
+
+    public String checkPerson(Person person) {
+        Person personToCompare = new Person();
+
+        for (Map.Entry mapentry : people.entrySet()) {
+            personToCompare = (Person) mapentry.getValue();
+            if (personToCompare.getFirstName().equals(person.getFirstName()) && personToCompare.getLastName().equals(person.getLastName())) {
+                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, "message", null);
+                return "error";
+            }
+        }
+        return "ok";
     }
 }
